@@ -1,0 +1,14 @@
+<div class="k_footer_logo">
+		<img src="../../bilder/kunye_footer_logo.png" alt="Plaza Estate" width="80" height="79" hspace="0" vspace="0" border="0" align="left">
+</div>
+				
+<div class="k_footer_text">
+	<ul>
+		<li>cem uslu </li>
+		<li>fon: +49 731/159 37-600</li>
+		<li>einsteinstraße 59</li>
+		<li>fax: +49 731/159 37-699</li>
+		<li>89077 ulm</li>
+		<li>e-mail: info@uslu.com</li>
+	</ul>
+</div>

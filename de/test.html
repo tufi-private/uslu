@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Unbenanntes Dokument</title>
+
+
+<link rel="stylesheet" type="text/css" href="../../css/jquery.validity.css">
+
+<script type="text/javascript" src="../../scripte/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="../../scripte/jQuery.validity.min.js"></script>
+
+
+
+<script type="text/javascript">
+
+
+ //Daten von den HTML Feldern in JS-Vars übersetzen
+  $("#formular1").click(function(){
+  var name      = $('input[name=name]');
+  var strasse   = $('input[name=strasse]');
+  var plz       = $('input[name=plz]');
+  var ort       = $('input[name=ort]');
+  var email     = $('input[name=email]');
+  var telefon   = $('input[name=telefon]');
+  var mobil     = $('input[name=mobil]');
+  var objekte   = $('input[name=objekte]');
+  var notiz     = $('input[name=notiz]');
+  var radio     = $('input[name=radiobuttons]');
+
+  //die Daten sollen per GET an das PHP Skript weitergeleitet werden. Dafür bauen wir einen
+  //String
+  var data = 'name=' + name.val()+
+  '&strasse=' + strasse.val()+
+  '&plz=' + plz.val()+
+  '&ort=' + ort.val()+
+  '&email=' + email.val()+
+  '&telefon=' + telefon.val()+
+  '&mobil=' + mobil.val()+
+  '&objekte=' + objekte.val()+
+  '&radio=' + radio.val()+
+  '&notiz='  + notiz.val();
+  //alert(data);
+  //alle Textfelder deaktivieren
+  //$("input[type='text']").attr('disabled','true');
+  //$("input[type='email']").attr('disabled','true');
+  //$("select[name='objekte']").attr('disabled','true');
+  //$("textarea[name='notiz']").attr('disabled','true');
+
+  //Request abschicken
+  $.ajax({
+
+	//Ort des Skriptes in dem die per GET übertragenen Daten verarbeitet werden sollen
+	url: "kontakt_bearbeiten.php",
+	//Angabe der GET Methode, auch POST wäre möglich. Allerdings nur sinnvoll
+  //bei größeren Datenmengen
+	type: "POST",
+	//Daten die gesendet werden sollen
+	data: data,
+	//bei Antwort des Requests (Response)
+	success: function (reqCode) {
+		//alert("DEBUG: AJAX abgeschickt!" + reqCode);
+	//wenn saveData.php true bzw. den Status 1 zurückliefert
+		if (reqCode==1) {
+		  //Icon während des Requests einblenden
+			//verstecken des Formulars
+			alert("ihre anfrage an uns angekommen. vielen dank.");
+		//wenn der Request eine Form von false zurückschickt, Fehler ausgeben.
+		} else{
+      alert('Fehler beim Abschicken des Formulares.');
+    }
+	}
+});
+	return false;
+  //der return wird benötigt, damit das Formular nicht tatsächlich abgeschickt wird und
+  //sich nicht wie ein normales Form mit Seiten Refresh verhält.
+
+
+
+
+
+
+
+
+
+
+ $(function() { 
+               
+ $("form").validity(function() {
+alert ("hello");
+	$("#name")
+		.require();
+    
+    $("#email")
+		.require()
+        .match("email");
+
+	});
+ });
+</script>
+
+</head>
+
+<body>
+
+
+<!-- Inhaltsblock für Seitentexte -->
+<div id="myForm">
+<form method="post" action="">
+            Number of Vehicles:
+            <input type="text" id="name" name="name" title="Vehicle Count" />
+            <br /><br />
+            Date of birth:
+            <input type="text" id="email" name="email" title="Birthday" />
+            <br /><br />
+            <input type="submit" />
+        </form>
+
+</div>
+</body>
+</html>

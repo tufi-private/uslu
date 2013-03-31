@@ -1,0 +1,35 @@
+<div>
+<h3>unternehmen</h3>
+seit mehr als 15 jahren ist unser unternehmen in der immobilienbranche erfolgreich tätig.
+<br /><br />
+unser ziel ist es, durch realisierung von verschiedenen bauprojekten, seit neuester zeit auch im bereich erneuerbarer energien, bleibende werte für die zukunft zu schaffen. bei der planung unserer projekte orientieren wir uns am neuesten stand der technik und wissenschaft. dabei spielt auch die ökologie für uns eine wichtige rolle.
+<br /><br />
+die stetige entwicklung unserer beziehungen zu unseren geschäftspartnern, aber auch das engagement und die leistungsfähigkeit unserer mitarbeiter tragen wesentlich zu unserem erfolg bei.
+
+<ul>
+    <li>standort- und marktanalysen</li>
+    <li>planung, entwicklung und realisierung</li>
+    <li>vermittlung und vermarktung</li>
+    <li>objektmanagement</li>
+</ul>
+
+
+<h3>geschäftsfelder</h3>
+<strong>gewerbeimmobilien</strong>
+<ul>
+    <li>bürohäuser</li>
+    <li>ärztezentren</li>
+    <li>hotelanlagen</li>
+</ul>
+
+
+<h3>erneuerbare energien</h3>
+<ul>
+    <li>photovoltaik</li>
+    <li>windkraft</li>
+    <li>wasserkraft</li>
+    <li>erdwärme</li>
+    <li>biogas</li>
+    <li>blockheizkraftwerke (bhkw)</li>
+</ul>
+</div>

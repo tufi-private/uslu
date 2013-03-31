@@ -1,0 +1,52 @@
+<table width="800" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><strong>firmen daten</strong></td>
+  </tr>
+</table>
+<table width="800" border="0" cellspacing="0" cellpadding="0">
+    <td height="1" bgcolor="#660000"></td>
+  </tr>
+  <tr>
+    <td height="5"></td>
+  </tr>
+</table>
+<table width="800" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="100"><img src="../../bilder/kunye_footer_logo.png" alt="uslu plaza estate" width="80" height="79" border="0"></td>
+    <td width="160">uslu projektentwicklung<br /><br />
+cem uslu
+<br />
+einsteinstraße 59<br />
+89077 ulm</td>
+    <td width="200">fon: +49 731/159 37-600<br />
+fax: +49 731/159 37-699<br />
+e-mail: <a href="mailto:info@uslu.com" style="text-decoration:none; color:#FFFFFF">info@uslu.com</a></td>
+    <td>geschäftsführer: cem uslu
+<br />
+umsatzsteuer-identifikationsnummer<br />
+gemäß §27a umsatzsteuergesetz: DE 217402720</td>
+  </tr>
+</table>
+<table width="800" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="10"></td>
+  </tr>
+</table>
+<table width="800" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><strong>internet umsetzung</strong></td>
+  </tr>
+</table>
+<table width="800" border="0" cellspacing="0" cellpadding="0">
+    <td height="1" bgcolor="#660000"></td>
+  </tr>
+  <tr>
+    <td height="5"></td>
+  </tr>
+</table>
+<table width="800" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>devrim eryüksel<br />
+e-mail: <a href="mailto:e-devrim@t-online.de" style="text-decoration:none; color:#999;">e-devrim@t-online.de</a></td>
+  </tr>
+</table>
