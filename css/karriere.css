@@ -1,0 +1,25 @@
+@charset "utf-8";
+/* CSS Document */
+
+#k_inhalt {
+	color: #FFF;
+	background-color: #000;
+	opacity: 0.75;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 450px;
+	overflow: auto;
+	padding: 5px;
+	border-color: #000;
+	border-width: 1px;
+	border-style: solid;
+	display: none;
+	z-index: 260;
+}
+
+
+#k_themenbild {
+	top:0px;
+	left:0px;
+}

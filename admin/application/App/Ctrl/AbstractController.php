@@ -7,6 +7,7 @@
  */
 
 namespace App\Ctrl;
+use App\Lang;
 use Exception;
 use App\Lib\Debug\Debugger;
 
@@ -181,8 +182,9 @@ abstract class AbstractController
     protected function getFrontendData()
     {
         $data = $this->db->getRows('
-            select * from pages
-            where identifier like "' . $this->identifier . '"
+            SELECT * from pages
+            WHERE identifier LIKE "' . $this->identifier . '"
+            AND lang="'.\Bootstrap::getLang().'"
         ');
         if (count($data) > 0) {
             // assign all database properties to object, to be used in the view
@@ -227,16 +229,18 @@ abstract class AbstractController
             $description = $this->db->quote($postData['page-description']);
             $online = $this->db->quote($online);
 
-            $sql= 'update pages set title='.$title.', description='.$description.', keywords='.$keywords.', online='.$online.'
-                where identifier like "'.$this->identifier.'"';
+            $sql= 'UPDATE pages SET title='.$title.', description='.$description.', keywords='.$keywords.', online='.$online.'
+                WHERE identifier LIKE "'.$this->identifier.'"'
+                . ' AND lang="' . \Bootstrap::getLang().'"';
             $result = $this->db->execute($sql);
 
             $affected = $result->getAffectedRows();
 
             return $affected > 0
-                ? \App\Lang::DE_MSG_META_SAVE_OK
-                : \App\Lang::DE_MSG_SAVED_NOTHING;
+                ? Lang::getString(\Bootstrap::getLang(),'MSG_META_SAVE_OK')
+                : Lang::getString(\Bootstrap::getLang(),'MSG_SAVED_NOTHING');
         }
+        return Lang::getString(\Bootstrap::getLang(),'MSG_SAVED_NOTHING');
     }
 
     /**
@@ -275,14 +279,15 @@ abstract class AbstractController
                 $pageContent = $this->db->quoteValue($postData['page-content']);
 
                 $sql = 'update pages set content=' . $pageContent
-                    . ' where identifier like "' . $this->identifier . '"';
+                    . ' where identifier like "' . $this->identifier . '"'
+                    . ' AND lang="' . \Bootstrap::getLang().'"';
                 $result = $this->db->execute($sql);
 
                 $affected = $result->getAffectedRows();
 
                 $this->messageSuccess = $affected > 0
-                    ? \App\Lang::DE_MSG_SAVE_OK
-                    : \App\Lang::DE_MSG_SAVED_NOTHING;
+                    ? Lang::getString(\Bootstrap::getLang(),'MSG_SAVE_OK')
+                    : Lang::getString(\Bootstrap::getLang(),'MSG_SAVED_NOTHING');
             } catch (Exception $e) {
                 $this->messageError = $e->getMessage();
             }
@@ -336,9 +341,9 @@ abstract class AbstractController
             ) {
                 if (intval($fileData['error']) > 0) {
                     throw new Exception(
-                        constant(
-                            "App\Lang::" . \Bootstrap::getLang() . "_UPLOAD_ERR_"
-                                . $fileData['error']
+                        Lang::getString(
+                            \Bootstrap::getLang(),
+                            "UPLOAD_ERR_" . $fileData['error']
                         )
                     );
                 }
@@ -367,6 +372,7 @@ abstract class AbstractController
                     $oldBgImage = $this->db->getVal(
                         'SELECT backgroundImage FROM pages where identifier like \''
                             . $this->identifier . '\''
+                            . ' AND lang="' . \Bootstrap::getLang().'"'
                     );
 
                     // delete old image if exists
@@ -377,7 +383,8 @@ abstract class AbstractController
                     $updateQuery = 'UPDATE`pages`
                     SET backgroundImage="'.$original_filename.'"
                     WHERE
-                        identifier LIKE "'.$this->identifier.'"';
+                        identifier LIKE "'.$this->identifier.'"'
+                        . ' AND lang="' . \Bootstrap::getLang().'"';
                     $this->db->execute($updateQuery);
                     move_uploaded_file($tempFile, $targetFile);
 
@@ -402,7 +409,7 @@ abstract class AbstractController
 
                 $result = array(
                     'success'   => true,
-                    'message'   => \App\Lang::DE_UPLOAD_OK,
+                    'message'   => Lang::DE_UPLOAD_OK,
                     'filename' => $original_filename,
                     'uploaded'  => 1,
                 );

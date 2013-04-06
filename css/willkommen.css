@@ -1,0 +1,81 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+/* ------------------------------ WILLKOMMEN PAGE ------------------------------- */
+/* Hintergrundbild je nach Bildschirmauflösung angepasst */
+
+#html {
+	/* background: url(../bilder/bild_willkommen.jpg) no-repeat center center fixed;*/
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	margin: 0px;
+	padding: 0px;
+}
+/* --------------------- */
+
+#willkommen {
+	margin: 0;
+	text-align: center;
+}
+
+.startbottom {
+	height: 150px;
+	background-image: url(../bilder/startbottom.png);
+	background-repeat: repeat-x;
+	width: 100%;
+	position: absolute;
+	bottom: 0px;
+}
+
+.startbottomcontent {
+	font-family: Arial, MS sans-serif;
+   font-size: 12px;
+   font-weight: bold;
+   color: #000;
+   width: 710px; 
+   margin: 0px auto;
+   position: relative;
+   left: 20px;
+}
+
+.startbottomleft {
+	font-family: Arial, MS sans-serif;
+   font-size: 12px;
+   font-weight: bold;
+   color: #000;
+   width: 200px;
+   float: left;
+   text-align: left;
+   line-height: 16px;
+   margin-top: 20px;
+   margin-left: 20px;
+}
+
+.startbottomcenter {
+	font-family: Arial, MS sans-serif;
+   font-size: 12px;
+   font-weight: bold;
+   color: #000;
+   width: 250px;
+   float: left;
+   text-align: left;
+   line-height: 16px;
+   margin-top: 20px;
+   margin-left: 20px;
+}
+
+.startbottomright {
+	font-family: Arial, MS sans-serif;
+   font-size: 12px;
+   font-weight: bold;
+   color: #000;
+   width: 200px;
+   float: left;
+   text-align: left;
+   line-height: 16px;
+   margin-top: 20px;
+   margin-left: 20px;
+}
+/* ------------------------------ /WILLKOMMEN PAGE ------------------------------- */

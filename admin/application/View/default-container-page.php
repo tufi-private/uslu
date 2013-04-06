@@ -1,4 +1,4 @@
-<h2>Einstellungen der <?= $this->htmlPage ?></h2>
+<h2><?= App\Lang::getString(Bootstrap::getLang(), 'SETTINGS_FOR') ?> <?= $this->htmlPage ?></h2>
 <?php include_once 'default-meta-pagecontent-forms.php'; ?>
 
 <h2><?=$this->innerPageDefinition ?>:</h2>
@@ -12,11 +12,28 @@
     <?php foreach ($this->innerPages as $key => $innerPage) : ?>
         <div id="tabs-<?= $key ?>">
             <h5 id="title-object-<?=$innerPage['id']?>" title="Zum Bearbeiten anklicken." class="editable"><?= $innerPage['title'] ?></h5>
-            <form method="post" class="ym-form linearize-form ym-full" action="index.php?show=<?= $this->identifier; ?>&do=updateObjectPageContent">
+            <form method="post" class="ym-form linearize-form ym-full" action="index.php?show=<?= $this->identifier; ?>&do=updateObjectPageContent" enctype="multipart/form-data">
                 <input type="hidden" name="contentId" value="<?= $innerPage['id']?>"/>
+
+                <div class="ym-fbox-text">
+                            <label for="page-menu-abbr">Menü Text:</label>
+                            <input type="text" name="page-menu-abbr" id="page-menu-abbr" size="8" maxlength="8" value="<?= $innerPage['menuAbbr']?>">
+                        </div>
+                <div class="ym-fbox-text">
+                            <label for="page-upload-customBgImage">Eigenes Hintergrundbild:</label>
+                            <input type="file" name="page-upload-customBgImage" id="page-upload-customBgImage" >
+                        </div>
+                <?php
+                if (!empty($innerPage['customPageBackground'])) : ?>
+                    <div class="ym-fbox-text">
+                        <label>Aktuelles Hintergrundbild für <?= $innerPage['title'] ?>:</label>
+                        <img src="/<?= Bootstrap::getFrontendBasePath();?>/<?= Bootstrap::getConfig()->backend->assets->foldername ?>/<?= $innerPage['customPageBackground'] ?>" alt="aktuelles Hintergrundbild: <?= $innerPage['customPageBackground']; ?>" class="thumbnail" id="page-customBgImage" />
+                    </div>
+                <?php endif; ?>
                 <div class="ym-fbox-text">
                     <textarea name="page-content-object" id="page-content-object-<?= $innerPage['id']?>" class="tinymce" cols="60" rows="65"><?= ($innerPage['content']); ?></textarea>
                 </div>
+
 
                 <div class="ym-fbox-button">
                     <input type="submit" class="ym-button" name="form-<?= $this->identifier; ?>-submit" id="form-<?= $this->identifier; ?>-submit-meta" value="Speichern"/>

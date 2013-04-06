@@ -7,6 +7,8 @@ use App\Dispatcher;
 use App\Lib\Debug\Debugger;
 use App\Lib\Image\Image;
 use App\Lang;
+use Zend\Http\Header\ContentType;
+
 /**
  * User: tufi
  * Date: 22.09.12
@@ -28,7 +30,8 @@ class ContainerPage extends AbstractController
             if (trim($title) != '') {
                 $sql = 'update content '
                     . 'set title=' . $title
-                    . ' where id=' . $contentId;
+                    . ' where id=' . $contentId
+                    . ' AND lang="' . Bootstrap::getLang().'"';
                 $this->db->execute($sql);
             }
         }
@@ -41,16 +44,28 @@ class ContainerPage extends AbstractController
     {
         $content = $this->_request->post()->get('page-content-object');
         $contentId = (int)$this->_request->post()->get('contentId');
+        $menuAbbr = $this->_request->post()->get('page-menu-abbr');
 
         if ($contentId > 0) {
-            $sql = 'update content '
-                . 'set content=' . $this->db->quoteValue($content)
-                . ' where id=' . $contentId;
+            $sql = 'UPDATE content '
+                . 'SET content=' . $this->db->quoteValue($content)
+                . ', menuAbbr=' . $this->db->quoteValue($menuAbbr)
+                . ' WHERE id=' . $contentId
+                . ' AND lang="' . Bootstrap::getLang().'"'
+            ;
             $result = $this->db->execute($sql);
             $affected = $result->getAffectedRows();
+
+            try {
+                $this->uploadCustomBgImage($contentId);
+                $affected++;
+            } catch (Exception $e) {
+                $this->messageSuccess .= "<span class=\"error\">".$e->getMessage()."</span>";
+            }
+
             $this->messageSuccess = $affected > 0
-                ? \App\Lang::DE_MSG_SAVE_OK
-                : \App\Lang::DE_MSG_SAVED_NOTHING;
+                ? \App\Lang::getString(\Bootstrap::getLang(),'MSG_SAVE_OK')
+                : \App\Lang::getString(\Bootstrap::getLang(),'MSG_SAVED_NOTHING');
             $this->init();
             $this->view($this->identifier);
         } else {
@@ -61,6 +76,104 @@ class ContainerPage extends AbstractController
             exit;
         }
     }
+
+    //------------------------------------------------------------------------
+    //TODO: following method is 90% identical to parents uploadBgImageAction
+    //FIXME: eliminate code duplication
+    public function uploadCustomBgImage($contentPageId)
+    {
+        $registry = \Bootstrap::getRegistry();
+        $cfg = $registry::get('CONFIG');
+
+        // Define a destination
+        $targetFolder = ROOT_PATH . '/' . $cfg->backend->assets->path;
+        if (!is_dir($targetFolder)) {
+            throw new \Exception(
+                'Target folder does not exist: ' . $targetFolder);
+        }
+
+        if (!is_writable($targetFolder)) {
+            throw new \Exception(
+                'Target folder is not writable: ' . $targetFolder);
+        }
+
+        $fileData = $this->_request->file()->get('page-upload-customBgImage');
+        if (!empty($fileData)) {
+            if (intval($fileData['error']) > 0) {
+                throw new Exception(
+                    constant(
+                        "App\Lang::" . \Bootstrap::getLang() . "_UPLOAD_ERR_"
+                            . $fileData['error']
+                    )
+                );
+            }
+
+            // Validate the file type
+            $fileTypesImage = $cfg
+                ->backend
+                ->assets
+                ->allowed
+                ->image
+                ->toArray();
+            $tempFile = $fileData['tmp_name'];
+            $fileParts = pathinfo($fileData['name']);
+
+            $extension = strtolower($fileParts['extension']);
+            if (in_array($extension, $fileTypesImage)) {
+                $original_filename = md5($fileData['name'] . time())
+                    . '_bg.'
+                    . $extension;
+
+                $targetFile = rtrim($targetFolder, '/')
+                    . '/'
+                    . $original_filename;
+
+
+                $oldBgImage = $this->db->getVal(
+                    'SELECT customPageBackground FROM content where id ='
+                        . $contentPageId
+                );
+
+                if (!empty($oldBgImage)) {
+
+                    // delete old image if exists
+                    if (file_exists($targetFolder . '/' . $oldBgImage)
+                        && is_file($targetFolder . '/' . $oldBgImage)
+                    ) {
+                        unlink($targetFolder . '/' . $oldBgImage);
+                    }
+                }
+
+                $updateQuery
+                    = 'UPDATE `content`
+                    SET customPageBackground="' . $original_filename . '"
+                    WHERE id =' . $contentPageId;
+                $this->db->execute($updateQuery);
+                move_uploaded_file($tempFile, $targetFile);
+
+                list($w, $h) = getimagesize($targetFile);
+                $sizes = \App\Lib\Image\ImageHandler::newSize(
+                    $w, 1920, $h, 1080
+                );
+
+
+                $image = new \App\Lib\Image\Image($targetFile);
+                // resize the bg image
+                $image->resize($sizes['w'], $sizes['h']);
+                // save image
+                $image->saveImage(
+                    $targetFile,
+                    $image->getImageData()
+                );
+
+                $image->clean();
+            } else {
+                throw new \Exception('Invalid file type.');
+            }
+        }
+    }
+
+    //------------------------------------------------------------------------
 
     /**
      * gets detailled data of the projects/objects
@@ -73,8 +186,8 @@ class ContainerPage extends AbstractController
         }
 
         $data = $this->db->getRows(
-            'select * from content
-            where pageId=' . $this->id
+            'select * from content where pageId=' . $this->id
+                . ' AND lang="' . Bootstrap::getLang().'"'
         );
 
         foreach ($data as $key => &$innerPageDetails) {
@@ -131,9 +244,9 @@ class ContainerPage extends AbstractController
             ) {
                 if (intval($fileData['error']) > 0) {
                     throw new Exception(
-                        constant(
-                            "App\Lang::" . Bootstrap::getLang() . "_UPLOAD_ERR_"
-                                . $fileData['error']
+                        \App\Lang::getString(
+                            Bootstrap::getLang(),
+                            "UPLOAD_ERR_". $fileData['error']
                         )
                     );
                 }
@@ -206,7 +319,7 @@ class ContainerPage extends AbstractController
 
                 $result = array(
                     'success'   => true,
-                    'message'   => \App\Lang::DE_UPLOAD_OK,
+                    'message'   => \App\Lang::getString(\Bootstrap::getLang(),'UPLOAD_OK'),
                     'uploaded'  => $asset,
                     'contentId' => $contentId
                 );
@@ -221,9 +334,9 @@ class ContainerPage extends AbstractController
 
                 if (intval($pdfArray['error']) > 0) {
                     throw new Exception(
-                        constant(
-                            "App\Lang::" . Bootstrap::getLang() . "_UPLOAD_ERR_"
-                                . $pdfArray['error']
+                        \App\Lang::getString(
+                            Bootstrap::getLang(),
+                            "UPLOAD_ERR_" . $pdfArray['error']
                         )
                     );
                 }
@@ -336,7 +449,9 @@ class ContainerPage extends AbstractController
         }
 
         if (is_null($this->messageError)) {
-            $this->messageSuccess = \App\Lang::DE_UPLOAD_OK;
+            $this->messageSuccess = Lang::getString(
+                Bootstrap::getLang(),'UPLOAD_OK'
+            );
         }
 
         $forwardAction = $isPdfUpload
@@ -356,9 +471,8 @@ class ContainerPage extends AbstractController
     {
         $keysString = '(`' . implode('`, `', array_keys($assetObject)) . '`)';
         $valuesString = '(\'' . implode('\', \'', $assetObject) . '\')';
-        $insertQuery
-            =
-            'INSERT INTO `assets` ' . $keysString . ' VALUES ' . $valuesString;
+        $insertQuery = 'INSERT INTO `assets` ' . $keysString
+            . ' VALUES ' . $valuesString;
         $this->db->execute($insertQuery);
     }
     /**
@@ -368,7 +482,10 @@ class ContainerPage extends AbstractController
     {
         $deleteIds = $this->_request->post()->get('assetId');
         if (empty($deleteIds)) {
-            $this->messageSuccess = Lang::DE_MSG_SAVED_NOTHING;
+            $this->messageSuccess = Lang::getString(
+                            Bootstrap::getLang(),
+                'MSG_SAVED_NOTHING'
+            );
             $this->init();
             $this->view($this->identifier);
             return;
@@ -405,21 +522,29 @@ class ContainerPage extends AbstractController
                 if (file_exists($assetFile) && is_file($assetFile)) {
                     if (unlink($assetFile)) {
                         $logMessageSuccess[] = sprintf(
-                            Lang::DE_UNLINK_OK, $assetFile
+                            Lang::getString(
+                                Bootstrap::getLang(), 'UNLINK_OK'
+                            ), $assetFile
                         );
                     } else {
                         $logMessageError[] = sprintf(
-                            Lang::DE_UNLINK_ERROR, $assetFile
+                            Lang::getString(
+                                Bootstrap::getLang(), 'UNLINK_ERROR'
+                            ), $assetFile
                         );
 
                         $logger->log(
                             \Zend\Log\Logger::ERR,
-                            Lang::DE_UNLINK_ERROR, $assetFile
+                            Lang::getString(
+                                Bootstrap::getLang(), 'UNLINK_ERROR'
+                            ), $assetFile
                         );
                     }
                 } else {
                     $logMessageError[] = sprintf(
-                        Lang::DE_FILE_NOT_FOUND, $assetFile
+                        Lang::getString(
+                            Bootstrap::getLang(), 'FILE_NOT_FOUND'
+                        ), $assetFile
                     );
                 }
             }
@@ -430,16 +555,22 @@ class ContainerPage extends AbstractController
             $affected = $result->getAffectedRows();
             if ($affected == 1) {
                 $logMessageSuccess[] = sprintf(
-                    Lang::DE_DELETE_OK, $assetDetails['original_filename']
+                    Lang::getString(
+                        Bootstrap::getLang(), 'DELETE_OK'
+                    ), $assetDetails['original_filename']
                 );
             } elseif ($affected == 0) {
                 $logMessageError[] = sprintf(
-                    Lang::DE_DELETE_ERROR, 'assets', $assetDetails['id']
+                    Lang::getString(
+                        Bootstrap::getLang(), 'DELETE_ERROR'
+                    ), 'assets', $assetDetails['id']
                 );
 
                 $logger->log(
                     \Zend\Log\Logger::ERR,
-                    Lang::DE_DELETE_ERROR, 'assets', $assetDetails['id']
+                    Lang::getString(
+                        Bootstrap::getLang(), 'DELETE_ERROR'
+                    ), 'assets', $assetDetails['id']
                 );
             }
         }

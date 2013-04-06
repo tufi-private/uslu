@@ -37,7 +37,8 @@ class Bootstrap
 
     private function __construct()
     {
-        self::$DEBUG = (strtolower($_SERVER['HTTP_HOST']) == 'localhost');
+        self::$DEBUG = (strtolower($_SERVER['HTTP_HOST']) == 'localhost'
+            || strtolower($_SERVER['HTTP_HOST']) == 'dev.tufi.de');
     }
 
     /**
@@ -122,9 +123,11 @@ class Bootstrap
 
 
         // load basic config and put it in registry
-        $cfgSuffix = self::$DEBUG
+        $cfgSuffix = strtolower($_SERVER['HTTP_HOST']) == 'localhost'
             ? '.local'
-            : '';
+            : (strtolower($_SERVER['HTTP_HOST']) == 'dev.tufi.de'
+                ? '.dev'
+                : '');
         $config = new Config(
             require SRC_PATH . '/../etc/config'.$cfgSuffix.'.php'
         );
@@ -420,8 +423,11 @@ class Bootstrap
     /**
      * @return string
      */
-    public static function getLang(){
-        return 'DE';
+    public static function getLang()
+    {
+        return strtoupper(isset($_SESSION['lang'])
+            ? $_SESSION['lang']
+            : 'DE');
     }
 
     /**

@@ -1,0 +1,151 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*
+* {
+	font-family: Georgia, Serif;
+	font-size: 12px;
+}
+
+*/
+
+#m01_unternehmen,
+#m02_objekte,
+#m03_projekte,
+#m04_kontakt,
+#m05_impressum,
+#m07_karriere,
+#m06_start  
+{
+	top: 0px;
+	left: 0px;
+	position: absolute;
+	width: 95px;
+	height: 95px;
+	z-index: 250;
+	text-align: center;
+	line-height: 95px;
+	margin: 0px;
+	background-color: #000000;
+	border-top-color: #fff;
+	border-right-color:#fff;
+	border-bottom-color:#fff;
+	border-left-color:#fff;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style:solid;
+	border-bottom-style:solid;
+	border-left-style:solid;
+	float: left;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	cursor: pointer;
+}
+
+#m01_unternehmen a,
+#m02_objekte a,
+#m03_projekte a,
+#m04_kontakt a,
+#m05_impressum a,
+#m07_karriere a,
+#m06_start a  
+{
+	font-family: Arial, MS sans-serif;
+   font-size: 12px;
+   font-weight: bold;
+   color: white;
+   text-decoration: none;
+   text-transform: uppercase;
+}
+
+#o_1,#o_2,#o_3,#o_4,#o_6,#o_7,#o_8,#o_9,#o_10,#o_11,#o_12,#o_13,#o_14,#o_15,#o_16  {
+	top: 0px;
+	right: 0px;
+	position: absolute;
+	width: 38px;
+	/*height: 40px;
+	z-index: 250;*/
+}
+
+#p_17,#p_18,#p_19,#p_20,#p_21,#p_22,#p_23,#p_24,#p_25,#p_26,#p_27,#p_28,#p_29,#p_30,#p_31  {
+	top: 0px;
+	right: 0px;
+	position: absolute;
+	width: 40px;
+	/*height: 40px;
+	z-index: 250;*/
+}
+
+
+.menuButton {
+    width: 40px;
+    height: 18px;
+    background-color: black;
+    z-index: 300;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: baseline;
+    color: white;
+    font-family: Verdana, Arial, MS sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    border: 1px solid #FFFFFF;
+    padding-top: 20px;
+    padding-bottom: 1px;
+}
+
+/* ----------------------------- IMPRESSUM AM FOOTER -------------------------------------*/
+
+
+#footer {
+    position:fixed;
+	padding-top:5px;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+	height:30px;
+	width:100%;
+    background: #ffffff;
+	color:#000000;
+    text-align: center;
+    overflow: hidden;
+	opacity: 0.75;
+    -webkit-box-shadow: 0 0 5px black;
+    -moz-box-shadow:    0 0 5px black;
+    box-shadow:         0 0 5px black;
+    z-index: 260;
+}
+div#footer_inhalt {
+	background: #ffffff;
+	width: 800px;
+	padding-left:200px;
+	text-align:left;
+	}
+
+.k_footer_text ul {
+	list-style-type: none;
+	margin: 0;
+	padding-left: 320px;
+	width: 400px;
+	text-align:left;
+}
+
+.k_footer_text li {
+	color: #666;
+	padding-top:3px;
+	float:left;
+	width: 200px;
+}
+
+.k_footer_logo {
+	float:left;
+	padding-right:30px;
+	padding-left:160px;
+
+}
+/* ----------------------------- /IMPRESSUM AM FOOTER -------------------------------------*/

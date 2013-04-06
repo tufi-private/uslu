@@ -42,6 +42,8 @@ class Dispatcher
      */
     protected $_response;
 
+    private $_defaultLang = 'de';
+
     /**
    	 * Create controller and call the run() method
    	 */
@@ -56,6 +58,15 @@ class Dispatcher
         }
         $controller = $this->getControllerName();
         $action = $this->getActionName();
+
+        $lang = $this->_request->query()->get('lang');
+        if (!empty($lang)) {
+            if (in_array($lang, array('de', 'en',/* 'tr', 'es', 'fr', 'nl'*/))){
+                $_SESSION['lang'] = $lang;
+            } else {
+                $_SESSION['lang'] = $this->_defaultLang;
+            }
+        }
 
         // sanitize controllera
         $controller = preg_replace('#[^a-z0-9-]#', '', strtolower($controller));

@@ -1,0 +1,30 @@
+@charset "utf-8";
+/* CSS Document */
+
+#u_inhalt {
+	color: #FFF;
+	background-color: #000;
+	opacity: 0.75;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 450px;
+	min-height:630px;
+	overflow: auto;
+	padding: 5px;
+	border-color: #000;
+	border-width: 1px;
+	border-style: solid;
+	display: none;
+	z-index: 260;
+}
+
+h3 {
+	font-size: 18px;
+	color: #6F87A1;
+}
+
+#u_themenbild {
+	top:0px;
+	left:0px;
+}

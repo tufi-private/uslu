@@ -4,54 +4,70 @@
     }
 ?>
 <nav id="accordion">
-    <h3><a id="header_index" href="/<?= Bootstrap::getBasePath() ?>index.php?show=index">Startseite</a></h3>
+    <h3><a id="header_index" href="/<?= Bootstrap::getBasePath() ?>index.php?show=index">
+            <?= App\Lang::getString(Bootstrap::getLang(), 'MENU_START') ?>
+        </a></h3>
     <div>
         <p>
-            Die Seite index.html bearbeiten.
+            <?= sprintf(App\Lang::getString(Bootstrap::getLang(), 'MENU_EDIT_PAGE'), 'index.html') ?>
         </p>
     </div>
-    <h3><a id="header_company" href="/<?= Bootstrap::getBasePath() ?>index.php?show=company">Unternehmen</a></h3>
+    <h3><a id="header_company" href="/<?= Bootstrap::getBasePath() ?>index.php?show=company">
+            <?= App\Lang::getString(Bootstrap::getLang(), 'MENU_COMPANY') ?>
+    </a></h3>
     <div>
         <p>
-            Die Seite unternehmen.html bearbeiten.
+            <?= sprintf(App\Lang::getString(Bootstrap::getLang(), 'MENU_EDIT_PAGE'), 'unternehmen.html') ?>
         </p>
     </div>
-    <h3><a id="header_objects" href="/<?= Bootstrap::getBasePath() ?>index.php?show=objects">Objekte</a></h3>
+    <h3><a id="header_objects" href="/<?= Bootstrap::getBasePath() ?>index.php?show=objects">
+            <?= App\Lang::getString(Bootstrap::getLang(), 'MENU_OBJECTS') ?>
+    </a></h3>
     <div>
         <p>
-            Die Seite objekte.html bearbeiten.
+            <?= sprintf(App\Lang::getString(Bootstrap::getLang(), 'MENU_EDIT_PAGE'), 'objekte.html') ?>
         </p>
     </div>
-    <h3><a id="header_projects" href="/<?= Bootstrap::getBasePath() ?>index.php?show=projects">Projekte</a></h3>
+    <h3><a id="header_projects" href="/<?= Bootstrap::getBasePath() ?>index.php?show=projects">
+            <?= App\Lang::getString(Bootstrap::getLang(), 'MENU_PROJECTS') ?>
+    </a></h3>
     <div>
         <p>
-            Die Seite objekte.html bearbeiten.
+            <?= sprintf(App\Lang::getString(Bootstrap::getLang(), 'MENU_EDIT_PAGE'), 'projekte.html') ?>
         </p>
     </div>
-    <h3><a id="header_jobs" href="/<?= Bootstrap::getBasePath() ?>index.php?show=jobs">Karriere</a></h3>
+    <h3><a id="header_jobs" href="/<?= Bootstrap::getBasePath() ?>index.php?show=jobs">
+            <?= App\Lang::getString(Bootstrap::getLang(), 'MENU_JOBS') ?>
+    </a></h3>
     <div>
         <p>
-            Die Seite karriere.html bearbeiten.
+            <?= sprintf(App\Lang::getString(Bootstrap::getLang(), 'MENU_EDIT_PAGE'), 'karriere.html') ?>
         </p>
     </div>
-    <h3><a id="header_contact" href="/<?= Bootstrap::getBasePath() ?>index.php?show=contact">Kontakt</a></h3>
+    <h3><a id="header_contact" href="/<?= Bootstrap::getBasePath() ?>index.php?show=contact">
+            <?= App\Lang::getString(Bootstrap::getLang(), 'MENU_CONTACT') ?>
+    </a></h3>
     <div>
         <p>
-            Die Seite kontakt.html bearbeiten.
+            <?= sprintf(App\Lang::getString(Bootstrap::getLang(), 'MENU_EDIT_PAGE'), 'kontakt.html') ?>
         </p>
     </div>
 
 
-    <h3><a id="header_imprint" href="/<?= Bootstrap::getBasePath() ?>index.php?show=imprint">Impressum</a></h3>
+    <h3><a id="header_imprint" href="/<?= Bootstrap::getBasePath() ?>index.php?show=imprint">
+            <?= App\Lang::getString(Bootstrap::getLang(), 'MENU_IMPRINT') ?>
+    </a></h3>
     <div>
         <p>
-            Die Seite impressum.html bearbeiten.
+            <?= sprintf(App\Lang::getString(Bootstrap::getLang(), 'MENU_EDIT_PAGE'), 'impressum.html') ?>
         </p>
     </div>
-    <h3><a id="header_siteinfo" href="/<?= Bootstrap::getBasePath() ?>index.php?show=siteinfo">Site Info</a></h3>
+    <h3><a id="header_siteinfo" href="/<?= Bootstrap::getBasePath() ?>index.php?show=siteinfo">
+            <?= App\Lang::getString(Bootstrap::getLang(), 'MENU_SITEINFO') ?>
+    </a></h3>
     <div>
         <p>
-            Allgemeine Site Informationen bearbeiten.
+            <?= App\Lang::getString(Bootstrap::getLang(), 'MENU_EDIT_SITEINFO') ?>
         </p>
     </div>
 </nav>

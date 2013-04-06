@@ -1,0 +1,44 @@
+@charset "utf-8";
+/* CSS Document */
+.container{
+    display: none;
+}
+.o_inhalt {
+	color: #FFF;
+	background-image:url(../bilder/10x10_bg.png);
+	position: absolute;
+	top: 170px;
+	left: 450px;
+	width: 640px;
+	overflow: auto;
+	padding: 5px;
+	border-color: #000;
+	border-width: 1px;
+	border-style: solid;
+	/*display: none;*/
+	z-index: 260;
+}
+
+.o_gallerie {
+	color: #FFF;
+	background-color:transparent !important;
+	position:relative;
+	/*display: none;*/
+}
+
+.o_pdf {
+	color: #FFF;
+	background-color:transparent !important;
+	position:relative;
+	/*display: none;*/
+}
+
+
+h3 {
+	font-size: 18px;
+	color: #6F87A1;
+}
+
+.menuButton {
+    border-color: #FFFFFF;
+}
