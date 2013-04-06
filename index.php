@@ -1,9 +1,17 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 'on');
-$serverStage = 'live';
-if ($_SERVER['SERVER_NAME'] == 'localhost'){
-    $serverStage= 'dev';
+// detect environment first:
+$serverStage = strtolower($_SERVER['HTTP_HOST']) == 'localhost'
+    ? 'local'
+    : (strtolower($_SERVER['HTTP_HOST']) == 'dev.tufi.de'
+        ? 'dev'
+        : 'live');
+
+if ($serverStage != 'live') {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 'on');
+} else {
+    error_reporting(0);
+    ini_set('display_errors', 0);
 }
 $config = require './config/config.php';
 require_once './php_class/DBClient.php';
