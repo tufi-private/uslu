@@ -44,7 +44,7 @@ return array(
         'httpd'    => array(
             'protocol' => 'http',
             'host'     => 'dev.tufi.de',
-            'path'     => '/uslu.com/'
+            'path'     => 'uslu.com'
         ),
         'database' => array(
             'host'            => 'localhost',

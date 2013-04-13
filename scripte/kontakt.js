@@ -42,9 +42,51 @@ $(document).ready(function() {
 
 <!-- funktion für die Formulardaten abzuschicken -->
 
+<!-- funktion liest mit get übergegebenen Parameter aus.
+HTTP_GET_VARS=new Array();
+strGET=document.location.search.substr(1,document.location.search.length);
+if(strGET!='')
+    {
+    gArr=strGET.split('&');
+    for(i=0;i<gArr.length;++i)
+        {
+        v='';vArr=gArr[i].split('=');
+        if(vArr.length>1){v=vArr[1];}
+        HTTP_GET_VARS[unescape(vArr[0])]=unescape(v);
+        }
+    }
+ 
+function GET(v)
+{
+if(!HTTP_GET_VARS[v]){return 'undefined';}
+return HTTP_GET_VARS[v];
+}
+
+
+
+	var lang = GET('lang'); // funktionsaufruf um den parameter zu lesen.
+
 	$("#submit").click(function(){
 		var valid = '';
-		var isr      = ' ist notwendig.';
+		
+		if (lang= "en") {
+			var isr         = ' is necessary';
+			var tel_txt  = 'Your phonenumber';
+			var mob_txt  = 'Your mobilenumber';
+			var mail_txt = 'A valid email';
+			var nach_txt = 'A valid message';
+			var error    = 'Error';
+			var mailsend = 'Ihre Nachricht wird gesendet...';
+			} else {
+				var isr      = ' ist notwendig.';
+				var tel_txt  = 'Ihre Telefonnummer';
+				var mob_txt  = 'Ihre Mobilnummer';
+				var mail_txt = 'Eine gültige E-Mail';
+				var nach_txt = 'Ein gültigen Nachricht';
+				var error    = 'Fehler';
+				var mailsend = 'Your message is being sent...';
+			}
+		
 		var name     = $("#name").val();
 		var strasse  = $("#strasse").val();
 		var plz      = $("#plz").val();
@@ -59,27 +101,27 @@ $(document).ready(function() {
 			valid += '<br />Name'+isr;
 		}
 		if (!telefon.match(/(?:\(\+?\d+\)|\+?\d+)(?:\s*[\-\/]*\s*\d+)+/i)) {
-			valid += '<br /> Ihre Telefonnummer'+isr;
+			valid += '<br /> '+tel_txt+isr;
 		}
 		if (!mobil.match(/(?:\(\+?\d+\)|\+?\d+)(?:\s*[\-\/]*\s*\d+)+/i)) {
-			valid += '<br /> Ihre Mobilnummer'+isr;
+			valid += '<br /> '+mob_txt+isr;
 		}
 		if (!email.match(/^([a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,4}$)/i)) {
-			valid += '<br />Eine gültige E-Mail'+isr;
+			valid += '<br /> '+mail_txt+isr;
 		}
 		if (notiz.length<1) {
-			valid += '<br />Ein gültigen Nachricht'+isr;
+			valid += '<br /> '+nach_txt+isr;
 		}
 		if (valid!='') {
 			$("#meldung").fadeIn("slow");
 			$("#response").fadeIn("slow");
-			$("#response").html("<strong>Fehler:</strong>"+valid);
+			$("#response").html("<strong>"+error+": </strong>"+valid);
 		}
 		else {
 			var datastr ='name=' + name + '&strasse=' + strasse + '&plz=' + plz + '&ort=' + ort + '&email=' + email + '&telefon=' + telefon + '&mobil=' + mobil + '&notiz=' + notiz + '&versteckt=' + hiddenfeld;
 			$("#response").css("display", "block");
 			$("#meldung").fadeIn("slow");
-			$("#response").html("Ihre Nachricht wird gesendet...").delay(5000);
+			$("#response").html(mailsend).delay(5000);
 			send(datastr);
 		}
 		return false;

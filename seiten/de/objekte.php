@@ -1,18 +1,7 @@
 <?php
-//error_reporting(E_ALL);
-ini_set('display_errors', 'on');
-$serverStage = 'live';
-if ($_SERVER['SERVER_NAME'] == 'localhost'){
-    $serverStage= 'dev';
-}
-$config = require '../../config/config.php';
-require_once '../../php_class/DBClient.php';
-require_once '../../php_class/AssetHandler.php';
+require_once '../../config/init.inc.php';
 
-$db = new DBClient($config[$serverStage]['database']);
-$WEBPATH = $config[$serverStage]['httpd']['path'];
-
-$query = 'select * from pages where identifier like "objects"';
+$query = 'SELECT * FROM pages WHERE identifier LIKE "objects"';
 $pageInfos = $db->getRow($query);
 
 $assetHandler = new AssetHandler('objects', $db);
@@ -23,6 +12,9 @@ $pageKeywords = $pageInfos->keywords;
 $backgroundImage = $pageInfos->backgroundImage;
 $page_online = $pageInfos->online;
 
+$query_job = 'SELECT online FROM pages WHERE identifier LIKE "jobs"';
+$jobInfo = $db->getRow($query_job);
+$job_online = $jobInfo->online;
 ?>
 
 <!DOCTYPE HTML>
@@ -39,15 +31,16 @@ $page_online = $pageInfos->online;
 <link rel="stylesheet" href="/<?= $WEBPATH ?>/scripte/fancybox/source/jquery.fancybox.css?v=2.1.0" type="text/css" media="screen" />
 
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery.animate-shadow.js"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/supersized.3.2.7.js"></script>
-<script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/objekte.js"></script>
+<script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/objekte.js.php"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/fancybox/source/jquery.fancybox.pack.js?v=2.1.0"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery.jmp3.js"></script>
 </head>
 
 <body marginheight="0" marginwidth="0" bottommargin="0" leftmargin="0" style="height:100%; margin:0px; padding:0px;">
 
-<!-- player 
+<!-- player
 <div id="sound"><?php // include("../../sound/sound.html") ?></div>
 <!-- /player -->
 
@@ -56,7 +49,7 @@ $page_online = $pageInfos->online;
 <!-- ****************  -->
 <?php
 /* Zeige soviel Objekte-Button, die in DB eingetragen sind */
-$query = 'select * FROM content WHERE PageId = 4';
+$query = 'SELECT * FROM content WHERE PageId = 4';
 $ergebnis = $db->getRows($query);
 $anzahl_bilder = count($ergebnis);
 
@@ -85,125 +78,122 @@ echo "<script language=\"javascript\">
 		</script>";
 
 
-foreach ($ergebnis as $key => $object) {
-	$id = (int)$object->id;
+foreach ($ergebnis as $key => $object):
+    $id = (int)$object->id;
     $content = $object->content;
-    $bilder = $object->assets;
     $contentId = $id;
     $assets = $assetHandler->getAssets($contentId);
 
-		if (empty($assets))
-		{
+    if (empty($assets)) :?>
+        <script language="javascript">
+            jQuery(function () {
+                $('#o_gallerie_<?= $id ?>').hide();
+                $('#o_pdf_<?= $id ?>').hide();
+            });
+        </script>
+    <?php endif; ?>
 
-		echo "<script language=\"javascript\">
-
-		jQuery(function () {
-
-			$('#o_gallerie_".$id."').hide();
-			$('#o_pdf_".$id."').hide();
-		});
-
-		</script>";
-
-		}
-    ?>
-
-    <?php if ($content <> "") {
-		?>
-<img src="/<?= $WEBPATH ?>/bilder/objekte/o<?= $id ?>.png" id="o_<?=$id?>" class="btn-o_<?=$id?>" alt="" width="40" height="40" border="0" style="opacity:1; z-index:300;">
-	<? } ?>
+    <?php if (!empty($content)): ?>
+        <div class="btn-o_<?=$id?> menuButton" id="o_<?=$id?>"><?= $object->menuAbbr?></div>
+    <? endif; ?>
 
     <!-- Inhaltsblock für container -->
-<div id="container_o<?=$id?>" class="container">
-
-    <!-- Inhaltsblock für Seitentexte -->
-    <div id="o_inhalt_<?=$id?>" class="o_inhalt">
-        <?=$content?>
-    </div>
-
-    <!-- Inhaltsblock für Galerie -->
-    <?php
-    $hasImage=false;
-    if (is_array($assets) && !empty($assets)){
-        foreach ($assets as $key=> $value) {
-            if ($value['category'] == 'bilder') {
-                $hasImage = true;
-                break;
-            }
-        }
-    }
-    if ($hasImage) :
-    ?>
-    <div id="o_gallerie_<?= $id ?>" class="o_gallerie">
-        <?php
-			foreach ($assets as $key=>$value)
-			{
-				if ($value['category'] == 'bilder' && substr ($value['path'],40,4) == 'orig')
-				{
-					$path_orig = trim($value['path']);
-					$path_thumb = str_replace('orig', 'thumb', $path_orig);
-
-                    $dimensions = '';
-                    $thumbnail = realpath(
-                        dirname(__FILE__) . '/../../' . $path_thumb
-                    );
-                    if (is_file($thumbnail)) {
-                        $dimensionsArray = getimagesize($thumbnail);
-                        $dimensions = $dimensionsArray[3];
+    <div id="container_o<?=$id?>" class="container">
+        <!-- Inhaltsblock für Seitentexte -->
+        <div id="o_inhalt_<?=$id?>" class="o_inhalt">
+            <?=$content?>
+            <!-- Inhaltsblock für Galerie -->
+            <?php
+            $hasImage = false;
+            if (is_array($assets) && !empty($assets)) {
+                foreach ($assets as $key => $value) {
+                    if ($value['category'] == 'bilder') {
+                        $hasImage = true;
+                        break;
                     }
-
-
-					echo "<a href='../../".$path_orig."' class='fancybox' target='_blank'><img src='../../".$path_thumb."' $dimensions style='margin: 10px 3px 10px 3px;'></a>";
-
-				}
-			}
-        ?>
-  </div>
-        <?php endif; ?>
-    <!-- Inhaltsblock für PDF-Galerie -->
-<?php
-    $hasPdf=false;
-    if (is_array($assets) && !empty($assets)){
-        foreach ($assets as $key=> $value) {
-            if ($value['category'] == 'pdf') {
-                $hasPdf = true;
-                break;
+                }
             }
-        }
-    }
-    ?>
-    <?php if ($hasPdf) : ?>
-    <div id="o_pdf_<?=$id?>" class="o_pdf">
-        <?php
-			foreach ($assets as $key=>$value) {
+            if ($hasImage) :
+                ?>
+                <div id="o_gallerie_<?= $id ?>" class="o_gallerie">
+                    <?php
+                    foreach ($assets as $key => $value) {
+                        if ($value['category'] == 'bilder'
+                            && substr($value['path'], 40, 4) == 'orig'
+                        ) {
+                            $path_orig = trim($value['path']);
+                            $path_thumb = str_replace(
+                                'orig', 'thumb', $path_orig
+                            );
 
-				if ($value['category'] == 'pdf') {
-					$pdfPath = trim($value['path']);
-					$thumbnailPath = trim($value['thumbnail_path']);
-                    $dimensions = '';
-                    if (!empty($thumbnailPath)) {
-                        $thumbnail = realpath(dirname(__FILE__).'/../../'.$thumbnailPath);
-                        if (is_file($thumbnail)) {
-                            $dimensionsArray = getimagesize($thumbnail);
-                            $dimensions = $dimensionsArray[3];
+                            $dimensions = '';
+                            $thumbnail = realpath(
+                                dirname(__FILE__) . '/../../' . $path_thumb
+                            );
+                            if (is_file($thumbnail)) {
+                                $dimensionsArray = getimagesize($thumbnail);
+                                $dimensions = $dimensionsArray[3];
+                            }
+
+
+                            echo"<a href='../../" . $path_orig
+                                . "' class='fancybox' target='_blank'><img src='../../"
+                                . $path_thumb
+                                . "' $dimensions style='margin: 10px 3px 10px 3px;'></a>";
                         }
                     }
                     ?>
-                    <a href="../../<?= $pdfPath ?>" target="_blank">
-                        <img src='../../<?= $thumbnailPath ?>' <?= $dimensions?> style='margin: 10px 3px 10px 3px;'>
-                    </a>
-                    <?php
-				}
-			}
-        ?>
-    </div>
-        <?php endif; ?>
-</div>
+                </div>
+            <?php endif; ?>
+            <!-- /Inhaltsblock für Galerie -->
 
-   <?php
-}
-	?>
-<!-- impressum am Footer & logo -->
+            <!-- Inhaltsblock für PDF-Galerie -->
+            <?php
+            $hasPdf = false;
+            if (is_array($assets) && !empty($assets)) {
+                foreach ($assets as $key => $value) {
+                    if ($value['category'] == 'pdf') {
+                        $hasPdf = true;
+                        break;
+                    }
+                }
+            }
+            ?>
+            <?php if ($hasPdf) : ?>
+                <div id="o_pdf_<?=$id?>" class="o_pdf">
+                    <?php
+                    foreach ($assets as $key => $value) {
+
+                        if ($value['category'] == 'pdf') {
+                            $pdfPath = trim($value['path']);
+                            $thumbnailPath = trim($value['thumbnail_path']);
+                            $dimensions = '';
+                            if (!empty($thumbnailPath)) {
+                                $thumbnail = realpath(
+                                    dirname(__FILE__) . '/../../'
+                                        . $thumbnailPath
+                                );
+                                if (is_file($thumbnail)) {
+                                    $dimensionsArray = getimagesize($thumbnail);
+                                    $dimensions = $dimensionsArray[3];
+                                }
+                            }
+                            ?>
+                            <a href="../../<?= $pdfPath ?>" class="fancybox" target="_blank"><img src='../../<?= $thumbnailPath ?>' <?= $dimensions?> style='padding-left:3px; padding-top:10px; padding-bottom:10px;'></a>
+                        <?php
+                        }
+                    }
+                    ?>
+                </div>
+            <?php endif; ?>
+            <!-- /Inhaltsblock für PDF-Galerie -->
+        </div>
+    </div>
+
+<?php endforeach; ?>
+
+
+<!-- impressum am Footer & logo
 <div id="footer">
     <a href="#" id="open" style="float:right; padding-right:10px;">
         <img src="/<?= $WEBPATH ?>/bilder/open.gif" width="20" height="20"
@@ -213,19 +203,8 @@ foreach ($ergebnis as $key => $object) {
              height="20" border="0" style="display:none;"></a>
     <div id="footer_inhalt"></div>
 </div>
+-->
 <!-- ****************  -->
-<script language="javascript">
-    jQuery(function () {
-        jQuery('div[id^="container_o"]').first().fadeIn("slow");
-        $('img[class^="btn-o_"]').click(function (event) {
-				event.preventDefault();
-				jQuery('div[id^="container_o"]').hide();
-				var id = this.id.split('_')[1];
-				jQuery('#container_o' + id).fadeIn("slow");
-        });
-    });
-</script>
-
 
 <img src="/<?= $WEBPATH ?>/assets/<?=$backgroundImage?>" style="display:none;" id="bg_groundImage">
 </body>

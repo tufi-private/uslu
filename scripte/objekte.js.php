@@ -1,19 +1,17 @@
 <?php
-$serverStage = 'live';
-if ($_SERVER['SERVER_NAME'] == 'localhost'){
-    $serverStage= 'dev';
+require_once '../config/init.inc.php';
+
+$lang = $_GET['lang'];
+
+if ($lang != 'en' || empty($lang)) {
+$lang = 'de';
 }
 
+$pageID = $lang == 'en' ? 11 : 4;
+
 header('Content-Type: application/javascript');
+$query = 'SELECT id, customPageBackground FROM content WHERE pageId='.$pageID.' AND content NOT LIKE "" ';
 
-$config = require '../config/config.php';
-require_once '../php_class/DBClient.php';
-require_once '../php_class/AssetHandler.php';
-
-$db = new DBClient($config[$serverStage]['database']);
-$WEBPATH = $config[$serverStage]['httpd']['path'];
-
-$query = 'SELECT id, customPageBackground FROM content WHERE pageId = 4 AND content NOT LIKE "" ';
 $contentPages = $db->getRows($query);
 
 //print_r($contentPages);
@@ -130,122 +128,122 @@ $(document).ready(function () {
 
 
 /* Menüpunkte werden an Position bewegt*/
-	$("#m01_unternehmen").show().animate({top: "50px", left: "150px"},2000, function() {    
+	$("#m01_unternehmen").show().animate({top: "50px", left: "150px"},2000, function() {
 		  $('#m01_unternehmen').stop().animate({boxShadow: '0 0 25px #ffffff'});
-	  
-      $('#m01_unternehmen').mouseover(function() {  
+
+      $('#m01_unternehmen').mouseover(function() {
         $('#m01_unternehmen').stop().animate({boxShadow: '0 0 0px #ffffff'});
       });
-      $('#m01_unternehmen').mouseout(function() {  
+      $('#m01_unternehmen').mouseout(function() {
         $('#m01_unternehmen').stop().animate({boxShadow: '0 0 25px #ffffff'});
       });
   });
-  $("#m01_unternehmen").click(function() {  
+  $("#m01_unternehmen").click(function() {
     location.href="unternehmen.php";
   });
-  
-	$("#m02_objekte").show().animate({top: "180px", left: "150px"},2000, function() {  
+
+	$("#m02_objekte").show().animate({top: "180px", left: "150px"},2000, function() {
       $('#m02_objekte').stop().animate({boxShadow: '0 0 25px #ffffff'});
-        
-      $('#m02_objekte').mouseover(function() {  
+
+      $('#m02_objekte').mouseover(function() {
         $('#m02_objekte').stop().animate({boxShadow: '0 0 0px #ffffff'});
       });
-      $('#m02_objekte').mouseout(function() {  
+      $('#m02_objekte').mouseout(function() {
         $('#m02_objekte').stop().animate({boxShadow: '0 0 25px #ffffff'});
       });
   });
-  $("#m02_objekte").click(function() {  
+  $("#m02_objekte").click(function() {
     location.href="objekte.php";
   });
-  
-	$("#m03_projekte").show().animate({top: "50px", left: "260px"},2000, function() {    
+
+	$("#m03_projekte").show().animate({top: "50px", left: "260px"},2000, function() {
 		  $('#m03_projekte').stop().animate({boxShadow: '0 0 25px #ffffff'});
-		  
-      $('#m03_projekte').mouseover(function() {  
+
+      $('#m03_projekte').mouseover(function() {
         $('#m03_projekte').stop().animate({boxShadow: '0 0 0px #ffffff'});
       });
-      $('#m03_projekte').mouseout(function() {  
+      $('#m03_projekte').mouseout(function() {
         $('#m03_projekte').stop().animate({boxShadow: '0 0 25px #ffffff'});
       });
   });
-  $("#m03_projekte").click(function() {  
+  $("#m03_projekte").click(function() {
     location.href="projekte.php";
   });
-  
-	$("#m04_kontakt").show().animate({top: "50px", left: "370px"},2000, function() {   
+
+	$("#m04_kontakt").show().animate({top: "50px", left: "370px"},2000, function() {
       $('#m04_kontakt').stop().animate({boxShadow: '0 0 25px #ffffff'});
-       
-      $('#m04_kontakt').mouseover(function() {  
+
+      $('#m04_kontakt').mouseover(function() {
         $('#m04_kontakt').stop().animate({boxShadow: '0 0 0px #ffffff'});
       });
-      $('#m04_kontakt').mouseout(function() {  
+      $('#m04_kontakt').mouseout(function() {
         $('#m04_kontakt').stop().animate({boxShadow: '0 0 25px #ffffff'});
       });
   });
-  $("#m04_kontakt").click(function() {  
+  $("#m04_kontakt").click(function() {
     location.href="kontakt.php";
   });
-  
+
 	$("#m05_impressum").show().animate({top: "50px", left: "480px"},2000, function() {
       $('#m05_impressum').stop().animate({boxShadow: '0 0 25px #ffffff'});
-          
-      $('#m05_impressum').mouseover(function() {  
+
+      $('#m05_impressum').mouseover(function() {
         $('#m05_impressum').stop().animate({boxShadow: '0 0 0px #ffffff'});
       });
-      $('#m05_impressum').mouseout(function() {  
+      $('#m05_impressum').mouseout(function() {
         $('#m05_impressum').stop().animate({boxShadow: '0 0 25px #ffffff'});
       });
   });
-  $("#m05_impressum").click(function() {  
+  $("#m05_impressum").click(function() {
     location.href="impressum.php";
   });
-  
-	$("#m07_karriere").show().animate({top: "50px", left: "590px"},2000, function() {   
-      
+
+	$("#m07_karriere").show().animate({top: "50px", left: "590px"},2000, function() {
+
       $('#m07_karriere').stop().animate({boxShadow: '0 0 25px #ffffff'});
-       
-      $('#m07_karriere').mouseover(function() {  
+
+      $('#m07_karriere').mouseover(function() {
         $('#m07_karriere').stop().animate({boxShadow: '0 0 0px #ffffff'});
       });
-      $('#m07_karriere').mouseout(function() {  
+      $('#m07_karriere').mouseout(function() {
         $('#m07_karriere').stop().animate({boxShadow: '0 0 25px #ffffff'});
       });
   });
-  $("#m07_karriere").click(function() {  
+  $("#m07_karriere").click(function() {
     location.href="karriere.php";
   });
-  
-  
-      
+
+
+
 		  $('#o_1').stop().animate({boxShadow: '0 0 25px #ffffff'});
-	  
-      $('#o_1').mouseover(function() {  
+
+      $('#o_1').mouseover(function() {
         $('#o_1').stop().animate({boxShadow: '0 0 0px #ffffff'});
       });
-      $('#o_1').mouseout(function() {  
+      $('#o_1').mouseout(function() {
         $('#o_1').stop().animate({boxShadow: '0 0 25px #ffffff'});
       });
-      
+
       $('#o_2').stop().animate({boxShadow: '0 0 25px #ffffff'});
-	  
-      $('#o_2').mouseover(function() {  
+
+      $('#o_2').mouseover(function() {
         $('#o_2').stop().animate({boxShadow: '0 0 0px #ffffff'});
       });
-      $('#o_2').mouseout(function() {  
+      $('#o_2').mouseout(function() {
         $('#o_2').stop().animate({boxShadow: '0 0 25px #ffffff'});
       });
-      
+
       $('#o_4').stop().animate({boxShadow: '0 0 25px #ffffff'});
-	  
-      $('#o_4').mouseover(function() {  
+
+      $('#o_4').mouseover(function() {
         $('#o_4').stop().animate({boxShadow: '0 0 0px #ffffff'});
       });
-      $('#o_4').mouseout(function() {  
+      $('#o_4').mouseout(function() {
         $('#o_4').stop().animate({boxShadow: '0 0 25px #ffffff'});
       });
-  
-  
-  
+
+
+
 	$("#m06_start").hide().css({top : "50px", left : "150px"});
 
 

@@ -1,14 +1,5 @@
 <?php
-ini_set('display_errors', 'on');
-$serverStage = 'live';
-if ($_SERVER['SERVER_NAME'] == 'localhost'){
-    $serverStage= 'dev';
-}
-$config = require '../../config/config.php';
-require_once '../../php_class/DBClient.php';
-require_once '../../php_class/AssetHandler.php';
-$db = new DBClient($config[$serverStage]['database']);
-$WEBPATH = $config[$serverStage]['httpd']['path'];
+require_once '../../config/init.inc.php';
 
 $query = 'select * from pages where identifier like "contact"';
 $pageInfos = $db->getRow($query);
@@ -19,9 +10,7 @@ $pageKeywords = $pageInfos->keywords;
 $backgroundImage = $pageInfos->backgroundImage;
 $content = $pageInfos->content;
 $page_online = $pageInfos->online;
-
 ?>
-
 <!DOCTYPE HTML>
 <html>
 <head>

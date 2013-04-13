@@ -1,16 +1,5 @@
 <?php
-//error_reporting(E_ALL);
-ini_set('display_errors', 'on');
-$serverStage = 'live';
-if ($_SERVER['SERVER_NAME'] == 'localhost'){
-    $serverStage= 'dev';
-}
-$config = require '../../config/config.php';
-require_once '../../php_class/DBClient.php';
-require_once '../../php_class/AssetHandler.php';
-
-$db = new DBClient($config[$serverStage]['database']);
-$WEBPATH = $config[$serverStage]['httpd']['path'];
+require_once '../../config/init.inc.php';
 
 $query = 'select * from pages where identifier like "projects"';
 $pageInfos = $db->getRow($query);
@@ -39,15 +28,16 @@ $page_online = $pageInfos->online;
 <link rel="stylesheet" href="/<?= $WEBPATH ?>/scripte/fancybox/source/jquery.fancybox.css?v=2.1.0" type="text/css" media="screen" />
 
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery.animate-shadow.js"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/supersized.3.2.7.js"></script>
-<script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/projekte.js"></script>
+<script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/projekte.js.php"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/fancybox/source/jquery.fancybox.pack.js?v=2.1.0"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery.jmp3.js"></script>
 </head>
 
 <body marginheight="0" marginwidth="0" bottommargin="0" leftmargin="0" style="height:100%; margin:0px; padding:0px;">
 
-<!-- player 
+<!-- player
 <div id="sound"><?php // include("../../sound/sound.html") ?></div>
 <!-- /player -->
 
@@ -61,7 +51,7 @@ $ergebnis = $db->getRows($query);
 $anzahl_bilder = count($ergebnis);
 
 echo "<script language=\"javascript\">
-		
+
 		jQuery(function () {
 
 		/* Projektpunkte werden an Position bewegt */
@@ -81,42 +71,32 @@ echo "<script language=\"javascript\">
 			$('#p_30').hide().animate({top : '480px', left : '210px'},2000).fadeIn(1000);
 			$('#p_31').hide().animate({top : '480px', left : '270px'},2000).fadeIn(1000);
 		});
-		
+
 		</script>";
 
 foreach ($ergebnis as $key => $object) {
 	$id = (int)$object->id;
     $content = $object->content;
-    $bilder = $object->assets;
     $contentId = $id;
     $assets = $assetHandler->getAssets($contentId);
-	
-		if (empty($assets))
-		{
-			
-		echo "<script language=\"javascript\">
-		
-		jQuery(function () {
-			$('#p_gallerie_".$id."').hide();
-			$('#p_pdf_".$id."').hide();
-		});
-		</script>";
-		
-		}
-	
-    ?>
-    
-    <?php if ($content <> "") {
-	?>
-<img src="/<?= $WEBPATH ?>/bilder/projekte/p<?= $id ?>.png" id="p_<?=$id?>" class="btn-p_<?=$id?>" alt="" width="40" height="40" border="0">
-	<? } ?>
-    
-    
+
+    if (empty($assets)) :?>
+        <script language="javascript">
+            jQuery(function () {
+                $('#p_gallerie_<?= $id ?>').hide();
+                $('#p_pdf_<?= $id ?>').hide();
+            });
+        </script>
+    <?php endif; ?>
+    <?php if (!empty($content)): ?>
+        <div class="btn-p_<?=$id?> menuButton" id="p_<?=$id?>"><?= $object->menuAbbr?></div>
+    <? endif; ?>
+
 <div id="container_p<?= $id ?>" class="container">
     <!-- Inhaltsblock für Seitentexte -->
     <div id="p_inhalt_<?=$id ?>" class="p_inhalt">
         <?=$content?>
-    </div>
+
     <!-- Inhaltsblock für Galerie -->
     <?php
     $hasImage=false;
@@ -156,6 +136,8 @@ foreach ($ergebnis as $key => $object) {
         ?>
   </div>
         <?php endif; ?>
+    <!-- /Inhaltsblock für Galerie -->
+
     <!-- Inhaltsblock für PDF-Galerie -->
 <?php
     $hasPdf=false;
@@ -186,20 +168,22 @@ foreach ($ergebnis as $key => $object) {
                         }
                     }
                     ?>
-                    <a href="../../<?= $pdfPath ?>" target="_blank">
-                        <img src='../../<?= $thumbnailPath ?>' <?= $dimensions?> style='margin: 10px 3px 10px 3px;'>
-                    </a>
+                    <a href="../../<?= $pdfPath ?>" target="_blank"><img src='../../<?= $thumbnailPath ?>' <?= $dimensions?> style="padding-left:3px; padding-top:10px; padding-bottom:10px;"></a>
                     <?php
 				}
 			}
         ?>
     </div>
         <?php endif; ?>
+    <!-- /Inhaltsblock für PDF-Galerie -->
+
+    </div>
+
 </div>
     <?php
 }
 	?>
-<!-- künye am Footer & logo -->
+<!-- impressum am Footer & logo
 <div id="footer">
     <a href="#" id="open" style="float:right; padding-right:10px;">
         <img src="/<?= $WEBPATH ?>/bilder/open.gif" width="20" height="20"
@@ -209,19 +193,8 @@ foreach ($ergebnis as $key => $object) {
              height="20" border="0" style="display:none;"></a>
     <div id="footer_inhalt"></div>
 </div>
+ -->
 <!-- ****************  -->
-<script language="javascript">
-    jQuery(function () {
-        jQuery('div[id^="container_p"]').first().fadeIn("slow");
-        $('img[class^="btn-p_"]').click(function (event) {
-				event.preventDefault();
-				jQuery('div[id^="container_p"]').hide();
-				var id = this.id.split('_')[1];
-				jQuery('#container_p' + id).fadeIn("slow");
-        });
-    });
-</script>
-
 <img src="/<?= $WEBPATH ?>/assets/<?=$backgroundImage?>" style="display:none;" id="bg_groundImage">
 </body>
 </html>

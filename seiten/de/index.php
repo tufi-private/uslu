@@ -1,16 +1,5 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 'on');
-$serverStage = 'live';
-if ($_SERVER['SERVER_NAME'] == 'localhost'){
-    $serverStage= 'dev';
-}
-$config = require '../../config/config.php';
-require_once '../../php_class/DBClient.php';
-require_once '../../php_class/AssetHandler.php';
-
-$db = new DBClient($config[$serverStage]['database']);
-$WEBPATH = $config[$serverStage]['httpd']['path'];
+require_once '../../config/init.inc.php';
 
 $query = 'select * from pages where identifier like "index"';
 $pageInfos = $db->getRow($query);
@@ -37,6 +26,7 @@ $backgroundImage = $pageInfos->backgroundImage;
 <link rel="stylesheet" type="text/css" href="/<?= $WEBPATH ?>/css/supersized.css">
 
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery.animate-shadow.js"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/supersized.3.2.7.js"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/startseite.js"></script>
 

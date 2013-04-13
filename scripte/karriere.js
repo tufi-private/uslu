@@ -209,7 +209,9 @@ createCookie(c_name,c_wert);
 
 
 /* inhaltsblock definieren und mit inhalt befüllen*/
-	$("#k_inhalt").animate({top:"+=20px", left:"+=380px"},1000).fadeIn(3000).load("../../seiten/de/content.php?table=pages&cnt=content&id=6").html();
+	$("#k_inhalt").animate({top:"+=20px", left:"+=380px"},1000).fadeIn(3000).load("../../seiten/de/content.php?table=pages&cnt=content&id=6&lang=DE").html();
+
+	$("#k_inhalt_en").animate({top:"+=20px", left:"+=380px"},1000).fadeIn(3000).load("../../seiten/de/content.php?table=pages&cnt=content&id=13&lang=EN").html();
 	$("<img src='../../bilder/themenbild_munster_transparent.png' width='188' height='344' border='0' style='display:none;'>")
 	.appendTo("#k_themenbild")
 	.css({"padding-top":"320px","padding-left":"160px"})

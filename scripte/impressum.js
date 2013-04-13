@@ -209,7 +209,9 @@ createCookie(c_name,c_wert);
 
 		
 /* inhaltsblock definieren und mit inhalt befüllen*/
-	$("#i_inhalt").animate({top:"226px", left:"270px"},1000).fadeIn(3000).load("../../seiten/de/content.php?table=pages&cnt=content&id=3").html();
+	$("#i_inhalt").animate({top:"226px", left:"270px"},1000).fadeIn(3000).load("../../seiten/de/content.php?table=pages&cnt=content&id=3&lang=DE").html();
+	
+	$("#i_inhalt_en").animate({top:"226px", left:"270px"},1000).fadeIn(3000).load("../../seiten/de/content.php?table=pages&cnt=content&id=10&lang=EN").html();
 	
 	// Impressum Footer -------------------------------------------------
 	
