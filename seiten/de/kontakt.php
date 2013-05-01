@@ -1,7 +1,7 @@
 <?php
 require_once '../../config/init.inc.php';
 
-$query = 'select * from pages where identifier like "contact"';
+$query = 'select * from pages where identifier like "contact" AND lang = "DE"';
 $pageInfos = $db->getRow($query);
 
 $pageTitle = $pageInfos->title;
@@ -27,7 +27,7 @@ $page_online = $pageInfos->online;
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/supersized.3.2.7.js"></script>
 <!-- <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/runonload.js"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery.qtip.min.js"></script> -->
-<script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/kontakt.js"></script>
+<script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/kontakt.js?lang=de"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery.jmp3.js"></script>
 
 </head>

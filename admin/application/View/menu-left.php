@@ -71,6 +71,13 @@
         </p>
     </div>
 </nav>
+
+<p>
+    <a href="/<?= Bootstrap::getBasePath() ?>index.php?show=index&lang=<?= Bootstrap::getLang()== 'DE' ? 'en' : 'de' ?>">
+        <?= Bootstrap::getLang()== 'DE' ? 'English Pages' : 'Deutsche Seiten' ?>
+    </a>
+</p>
+
 <form action="/<?= Bootstrap::getBasePath() ?>index.php?show=login&do=logout" method="post">
     <input type="submit" value="Logout" id="form-logout-submit" name="form-logout-submit" class="ym-button">
 </form>

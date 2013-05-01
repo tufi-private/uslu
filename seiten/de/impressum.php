@@ -1,7 +1,7 @@
 <?php
 require_once '../../config/init.inc.php';
 
-$query = 'select * from pages where identifier like "imprint"';
+$query = 'select * from pages where identifier like "imprint" AND lang="DE"';
 $pageInfos = $db->getRow($query);
 
 $assetHandler = new AssetHandler('objects', $db);
@@ -15,9 +15,7 @@ $pageKeywords = $pageInfos->keywords;
 $backgroundImage = $pageInfos->backgroundImage;
 $page_online = $pageInfos->online;
 
-?>
-
-<!DOCTYPE HTML>
+?><!DOCTYPE HTML>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">

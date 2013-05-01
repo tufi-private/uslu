@@ -1,7 +1,7 @@
 <?php
 require_once '../../config/init.inc.php';
 
-$query = 'SELECT * FROM pages WHERE identifier LIKE "objects"';
+$query = 'SELECT * FROM pages WHERE identifier LIKE "objects" AND lang="DE"';
 $pageInfos = $db->getRow($query);
 
 $assetHandler = new AssetHandler('objects', $db);
@@ -15,9 +15,7 @@ $page_online = $pageInfos->online;
 $query_job = 'SELECT online FROM pages WHERE identifier LIKE "jobs"';
 $jobInfo = $db->getRow($query_job);
 $job_online = $jobInfo->online;
-?>
-
-<!DOCTYPE HTML>
+?><!DOCTYPE HTML>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -33,7 +31,7 @@ $job_online = $jobInfo->online;
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery.animate-shadow.js"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/supersized.3.2.7.js"></script>
-<script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/objekte.js.php"></script>
+<script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/objekte.js.php?lang=de"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/fancybox/source/jquery.fancybox.pack.js?v=2.1.0"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery.jmp3.js"></script>
 </head>

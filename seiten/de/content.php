@@ -5,8 +5,9 @@ require_once '../../config/init.inc.php';
 $id = $_GET['id'];
 $cnt = $_GET['cnt'];
 $tabelle = $_GET['table'];
+$lang = $_GET['lang'];
 
-$query = 'select * from ' . $tabelle . ' where id=' . $id;
+$query = $query = 'select * from ' . $tabelle . ' where id=' . $id . ' AND lang="' . $lang .'"';
 $siteInfos = $db->getRow($query);
 /* var_dump($siteInfos);*/
 

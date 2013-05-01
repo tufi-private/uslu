@@ -1,7 +1,7 @@
 <?php
 require_once '../../config/init.inc.php';
 
-$query = 'select * from pages where identifier like "projects"';
+$query = 'select * from pages where identifier like "projects" AND lang="DE"';
 $pageInfos = $db->getRow($query);
 
 $assetHandler = new AssetHandler('projects', $db);
@@ -11,10 +11,7 @@ $pageDescription = $pageInfos->description;
 $pageKeywords = $pageInfos->keywords;
 $backgroundImage = $pageInfos->backgroundImage;
 $page_online = $pageInfos->online;
-
-?>
-
-<!DOCTYPE HTML>
+?><!DOCTYPE HTML>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -30,7 +27,7 @@ $page_online = $pageInfos->online;
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery.animate-shadow.js"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/supersized.3.2.7.js"></script>
-<script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/projekte.js.php"></script>
+<script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/projekte.js.php?lang=de&c=<?= time();?>"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/fancybox/source/jquery.fancybox.pack.js?v=2.1.0"></script>
 <script type="text/javascript" src="/<?= $WEBPATH ?>/scripte/jquery.jmp3.js"></script>
 </head>

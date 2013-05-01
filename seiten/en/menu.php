@@ -1,5 +1,5 @@
 <?php
-$query_job = 'select online from pages where identifier like "jobs"';
+$query_job = 'select online from pages where identifier like "jobs" AND lang="EN"';
 $jobInfo = $db->getRow($query_job);
 $job_online = $jobInfo->online;
 ?>

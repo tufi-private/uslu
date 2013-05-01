@@ -1,7 +1,7 @@
 <?php
 require_once '../../config/init.inc.php';
 
-$query = 'select * from pages where identifier like "jobs"';
+$query = 'select * from pages where identifier like "jobs" AND lang="DE"';
 $pageInfos = $db->getRow($query);
 
 $pageTitle = $pageInfos->title;

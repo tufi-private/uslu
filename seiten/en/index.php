@@ -1,7 +1,7 @@
 <?php
 require_once '../../config/init.inc.php';
 
-$query = 'select * from pages where identifier like "index" ';
+$query = 'select * from pages where identifier like "index"  AND lang="EN"';
 $pageInfos = $db->getRow($query);
 
 $assetHandler = new AssetHandler('objects', $db);

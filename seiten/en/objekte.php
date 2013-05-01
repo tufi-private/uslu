@@ -16,9 +16,7 @@ $page_online = $pageInfos->online;
 $query_job = 'SELECT online FROM pages WHERE identifier LIKE "jobs"';
 $jobInfo = $db->getRow($query_job);
 $job_online = $jobInfo->online;
-?>
-
-<!DOCTYPE HTML>
+?><!DOCTYPE HTML>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -74,7 +72,7 @@ echo "<script language=\"javascript\">
 			$('#o_14').hide().animate({top : '480px', left : '150px'},2000).fadeIn(1000);
 			$('#o_15').hide().animate({top : '480px', left : '210px'},2000).fadeIn(1000);
 			$('#o_16').hide().animate({top : '480px', left : '270px'},2000).fadeIn(1000);
-			
+
 			$('#o_32').hide().animate({top : '300px', left : '150px'},2000).fadeIn(1000);
 			$('#o_33').hide().animate({top : '300px', left : '210px'},2000).fadeIn(1000);
 			$('#o_34').hide().animate({top : '300px', left : '270px'},2000).fadeIn(1000);

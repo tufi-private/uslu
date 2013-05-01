@@ -1,7 +1,7 @@
 <?php
 require_once '../../config/init.inc.php';
 
-$query = 'select * from pages where identifier like "projects"';
+$query = 'select * from pages where identifier like "projects" AND lang="EN"';
 $pageInfos = $db->getRow($query);
 
 $assetHandler = new AssetHandler('projects', $db);
@@ -11,10 +11,7 @@ $pageDescription = $pageInfos->description;
 $pageKeywords = $pageInfos->keywords;
 $backgroundImage = $pageInfos->backgroundImage;
 $page_online = $pageInfos->online;
-
-?>
-
-<!DOCTYPE HTML>
+?><!DOCTYPE HTML>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -70,7 +67,7 @@ echo "<script language=\"javascript\">
 			$('#p_29').hide().animate({top : '480px', left : '150px'},2000).fadeIn(1000);
 			$('#p_30').hide().animate({top : '480px', left : '210px'},2000).fadeIn(1000);
 			$('#p_31').hide().animate({top : '480px', left : '270px'},2000).fadeIn(1000);
-			
+
 			$('#p_47').hide().animate({top : '300px', left : '150px'},2000).fadeIn(1000);
 			$('#p_48').hide().animate({top : '300px', left : '210px'},2000).fadeIn(1000);
 			$('#p_49').hide().animate({top : '300px', left : '270px'},2000).fadeIn(1000);
@@ -86,7 +83,7 @@ echo "<script language=\"javascript\">
 			$('#p_59').hide().animate({top : '480px', left : '150px'},2000).fadeIn(1000);
 			$('#p_60').hide().animate({top : '480px', left : '210px'},2000).fadeIn(1000);
 			$('#p_61').hide().animate({top : '480px', left : '270px'},2000).fadeIn(1000);
-			
+
 		});
 
 		</script>";
